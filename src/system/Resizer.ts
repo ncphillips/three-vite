@@ -1,25 +1,28 @@
-import {PerspectiveCamera, WebGLRenderer} from "three";
+import {PerspectiveCamera } from "three";
 
-export class Resizer {
+export class Resizer extends EventTarget {
   #container: HTMLDivElement
   #camera: PerspectiveCamera
-  #renderer: WebGLRenderer
 
-  constructor(container: HTMLDivElement, camera: PerspectiveCamera, renderer: WebGLRenderer) {
+  constructor(container: HTMLDivElement, camera: PerspectiveCamera) {
+    super()
     this.#container = container;
     this.#camera = camera;
-    this.#renderer = renderer;
-
-    this.resize()
   }
 
-  private resize() {
+  resize() {
     this.#camera.aspect = this.#container.clientWidth / this.#container.clientHeight;
 
     this.#camera.updateProjectionMatrix();
 
-    this.#renderer.setSize(this.#container.clientWidth, this.#container.clientHeight);
+    this.dispatchEvent(new ResizeEvent(this.#container.clientWidth, this.#container.clientHeight))
+  }
+}
 
-    this.#renderer.setPixelRatio(window.devicePixelRatio);
+export class ResizeEvent extends Event {
+  static readonly type = '3:resize'
+
+  constructor(public readonly width: number, public readonly height: number) {
+    super(ResizeEvent.type)
   }
 }

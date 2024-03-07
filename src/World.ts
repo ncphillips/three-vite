@@ -1,34 +1,33 @@
 import {createCamera} from "./components/camera.ts";
 import {createScene} from "./components/scene.ts";
-import {PerspectiveCamera, Scene, WebGLRenderer} from "three";
-import {createRenderer} from "./system/renderer.ts";
-import {createCube} from "./components/cube.ts";
+import {Object3D, PerspectiveCamera, Scene} from "three";
 import {Resizer} from "./system/Resizer.ts";
 import {createLight} from "./components/light.ts";
+import {Renderer} from "./system/renderer.ts";
 
 export class World {
   #camera: PerspectiveCamera
   #scene: Scene
-  #renderer: WebGLRenderer
+  #renderer: Renderer
   #container: HTMLDivElement
 
   constructor(
     container: HTMLDivElement
   ) {
     this.#camera = createCamera();
+    const resizer = new Resizer(container, this.#camera)
     this.#scene = createScene();
-    this.#renderer = createRenderer()
+    this.#renderer = new Renderer(this.#scene, this.#camera, resizer)
     this.#container = container;
 
     this.#container.append(this.#renderer.domElement);
 
-    this.#scene.add(createCube(), createLight())
+    this.#scene.add(createLight())
 
-    new Resizer(container, this.#camera, this.#renderer)
+    resizer.resize()
   }
 
-
-  render() {
-    this.#renderer.render(this.#scene, this.#camera);
+  add(...args: Object3D[]) {
+    this.#scene.add(...args)
   }
 }
