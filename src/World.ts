@@ -4,6 +4,7 @@ import {PerspectiveCamera, Scene, WebGLRenderer} from "three";
 import {createRenderer} from "./system/renderer.ts";
 import {createCube} from "./components/cube.ts";
 import {Resizer} from "./system/Resizer.ts";
+import {createLight} from "./components/light.ts";
 
 export class World {
   #camera: PerspectiveCamera
@@ -21,7 +22,7 @@ export class World {
 
     this.#container.append(this.#renderer.domElement);
 
-    this.#scene.add(createCube())
+    this.#scene.add(createCube(), createLight())
 
     new Resizer(container, this.#camera, this.#renderer)
   }
