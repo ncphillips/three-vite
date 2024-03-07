@@ -1,5 +1,6 @@
 import './style.css'
 import {World} from "./World.ts";
+import {createCube} from "./components/cube.ts";
 
 const container = document.querySelector<HTMLDivElement>('#scene-container');
 
@@ -9,12 +10,12 @@ if (!container) {
 
 const world = new World(container)
 
-let startButton = document.getElementById("start");
 
-if (!startButton) {
-  throw new Error("Where's the button?");
-}
+const cube = createCube()
 
-startButton.addEventListener("click", () => {
-  world.render();
-})
+world.add(cube)
+
+setInterval(() => {
+  cube.rotation.x += 0.01
+  cube.rotation.y += 0.01
+}, 1000 / 60)
