@@ -1,9 +1,8 @@
-import {BoxGeometry, Mesh, MeshBasicMaterial} from "three";
+import {BoxGeometry, Mesh, MeshStandardMaterial} from "three";
 
 export function createCube() {
   const geometry = new BoxGeometry(2, 2, 2);
-
-  const material = new MeshBasicMaterial({color: 0x00ff00});
+  const material = new MeshStandardMaterial({color: 'purple'});
 
   return new Mesh(geometry, material);
 }
