@@ -12,8 +12,12 @@ const world = new World(container)
 
 
 const cube = createCube()
+cube.position.set(-1.5, 0, 0)
 
-world.add(cube)
+const otherCube = cube.clone()
+otherCube.position.set(1.5, 0, 0)
+
+world.add(cube, otherCube)
 
 world.onTick(() => {
   cube.rotation.x += 0.01
