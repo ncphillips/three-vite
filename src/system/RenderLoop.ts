@@ -1,10 +1,12 @@
-import {Camera, Scene, WebGLRenderer} from "three";
+import {Camera, Clock, Scene, WebGLRenderer} from "three";
 import {CanvasResizeEvent, Canvas} from "./Canvas.ts";
 
 export class RenderLoop extends EventTarget {
+  #clock = new Clock()
   #scene: Scene
   #camera: Camera
   #renderer: WebGLRenderer
+  speed = 1
 
   constructor(scene: Scene, camera: Camera, resizer: Canvas) {
     super()
@@ -31,8 +33,9 @@ export class RenderLoop extends EventTarget {
   }
 
   render = () => {
+    const delta = this.#clock.getDelta() * this.speed
     this.#renderer.render(this.#scene, this.#camera)
-    this.dispatchEvent(new RenderEvent())
+    this.dispatchEvent(new RenderEvent(delta))
   }
 
   #handleResize = (resizeEvent: Event) => {
@@ -47,7 +50,7 @@ export class RenderLoop extends EventTarget {
 export class RenderEvent extends Event {
   static readonly type = 'Renderer:render'
 
-  constructor() {
+  constructor(public readonly delta: number) {
     super(RenderEvent.type)
   }
 }

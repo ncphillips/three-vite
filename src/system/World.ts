@@ -36,6 +36,13 @@ export class World extends EventTarget {
 
     canvas.resize()
   }
+  get speed() {
+    return this.#renderLoop.speed
+  }
+
+  set speed(speed: number) {
+    this.#renderLoop.speed = speed
+  }
 
   start() {
     this.#renderLoop.start()
@@ -49,20 +56,22 @@ export class World extends EventTarget {
     this.#scene.add(...args)
   }
 
-  onTick(callback: () => void) {
+  onTick(callback: (event: RenderEvent) => void) {
+    // @ts-ignore
     this.addEventListener(WorldTickEvent.type, callback)
   }
 
-  private tick = () => {
-    this.dispatchEvent(new WorldTickEvent())
-  }
+  private tick = (renderEvent: Event) => {
+    if (!(renderEvent instanceof RenderEvent)) return
 
+    this.dispatchEvent(new WorldTickEvent(renderEvent.delta))
+  }
 }
 
 export class WorldTickEvent extends Event {
   static readonly type = 'world:tick'
 
-  constructor() {
+  constructor(public readonly delta: number) {
     super(WorldTickEvent.type)
   }
 }
