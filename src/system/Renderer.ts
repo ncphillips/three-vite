@@ -10,12 +10,14 @@ export class Renderer extends EventTarget {
     super()
     this.#scene = scene
     this.#camera = camera
-    this.#renderer = new WebGLRenderer()
+    this.#renderer = new WebGLRenderer({
+      antialias: true
+    })
     this.render()
 
     resizer.addEventListener(CanvasResizeEvent.type, this.#handleResize)
 
-    setInterval(this.render, 1000/60)
+    setInterval(this.render, 1000 / 60)
   }
 
   get domElement() {
