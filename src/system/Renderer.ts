@@ -1,19 +1,19 @@
 import {Camera, Scene, WebGLRenderer} from "three";
-import {ResizeEvent, Resizer} from "./Resizer.ts";
+import {CanvasResizeEvent, Canvas} from "./Canvas.ts";
 
 export class Renderer extends EventTarget {
   #scene: Scene
   #camera: Camera
   #renderer: WebGLRenderer
 
-  constructor(scene: Scene, camera: Camera, resizer: Resizer) {
+  constructor(scene: Scene, camera: Camera, resizer: Canvas) {
     super()
     this.#scene = scene
     this.#camera = camera
     this.#renderer = new WebGLRenderer()
     this.render()
 
-    resizer.addEventListener(ResizeEvent.type, this.#handleResize)
+    resizer.addEventListener(CanvasResizeEvent.type, this.#handleResize)
 
     setInterval(this.render, 1000/60)
   }
@@ -28,7 +28,8 @@ export class Renderer extends EventTarget {
   }
 
   #handleResize = (resizeEvent: Event) => {
-    if (!(resizeEvent instanceof ResizeEvent)) return
+    if (!(resizeEvent instanceof CanvasResizeEvent)) return
+
     this.#renderer.setSize(resizeEvent.width, resizeEvent.height);
 
     this.#renderer.setPixelRatio(window.devicePixelRatio);
