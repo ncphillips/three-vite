@@ -2,7 +2,7 @@ import {Object3D, PerspectiveCamera, Scene} from "three";
 
 // System
 import {Canvas} from "./Canvas.ts";
-import {Renderer, RenderEvent} from "./Renderer.ts";
+import {RenderLoop, RenderEvent} from "./RenderLoop.ts";
 
 // Components
 import {createCamera} from "../components/camera.ts";
@@ -12,7 +12,7 @@ import {createScene} from "../components/scene.ts";
 export class World extends EventTarget {
   #camera: PerspectiveCamera
   #scene: Scene
-  #renderer: Renderer
+  #renderLoop: RenderLoop
   #container: HTMLDivElement
 
   constructor(
@@ -28,13 +28,21 @@ export class World extends EventTarget {
     this.#scene = createScene();
     this.#scene.add(createLight())
 
-    this.#renderer = new Renderer(this.#scene, this.#camera, canvas)
+    this.#renderLoop = new RenderLoop(this.#scene, this.#camera, canvas)
 
-    this.#container.append(this.#renderer.domElement);
+    this.#container.append(this.#renderLoop.domElement);
 
-    this.#renderer.addEventListener(RenderEvent.type, this.tick)
+    this.#renderLoop.addEventListener(RenderEvent.type, this.tick)
 
     canvas.resize()
+  }
+
+  start() {
+    this.#renderLoop.start()
+  }
+
+  stop() {
+    this.#renderLoop.stop()
   }
 
   add(...args: Object3D[]) {

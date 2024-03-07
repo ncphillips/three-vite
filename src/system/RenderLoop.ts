@@ -1,7 +1,7 @@
 import {Camera, Scene, WebGLRenderer} from "three";
 import {CanvasResizeEvent, Canvas} from "./Canvas.ts";
 
-export class Renderer extends EventTarget {
+export class RenderLoop extends EventTarget {
   #scene: Scene
   #camera: Camera
   #renderer: WebGLRenderer
@@ -16,8 +16,14 @@ export class Renderer extends EventTarget {
     this.render()
 
     resizer.addEventListener(CanvasResizeEvent.type, this.#handleResize)
+  }
 
-    setInterval(this.render, 1000 / 60)
+  start() {
+    this.#renderer.setAnimationLoop(this.render)
+  }
+
+  stop() {
+    this.#renderer.setAnimationLoop(null)
   }
 
   get domElement() {

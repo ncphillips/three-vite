@@ -19,3 +19,17 @@ world.onTick(() => {
   cube.rotation.x += 0.01
   cube.rotation.y += 0.01
 })
+
+
+world.start()
+
+const playButton = document.querySelector('#play')
+const pauseButton = document.querySelector('#pause')
+
+playButton?.addEventListener('click', () => {
+  world.start()
+})
+
+pauseButton?.addEventListener('click', () => {
+  world.stop()
+})
