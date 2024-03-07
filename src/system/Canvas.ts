@@ -1,12 +1,17 @@
+import throttle from "lodash.throttle"
+
 export class Canvas extends EventTarget {
   #container: HTMLDivElement
 
   constructor(container: HTMLDivElement) {
     super()
+
     this.#container = container;
+
+    window.addEventListener('resize', throttle(this.resize, 100))
   }
 
-  resize() {
+  resize = () => {
     this.dispatchEvent(new CanvasResizeEvent(this.#container.clientWidth, this.#container.clientHeight))
   }
 }
