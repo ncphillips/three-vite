@@ -17,5 +17,9 @@
   "dependencies": {
     "lodash.throttle": "^4.1.1",
     "three": "^0.162.0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   }
 }

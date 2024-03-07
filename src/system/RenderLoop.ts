@@ -1,5 +1,5 @@
-import {Camera, Clock, Scene, WebGLRenderer} from "three";
-import {CanvasResizeEvent, Canvas} from "./Canvas.ts";
+import { Camera, Clock, Scene, WebGLRenderer } from 'three'
+import { CanvasResizeEvent, Canvas } from './Canvas.ts'
 
 export class RenderLoop extends EventTarget {
   #clock = new Clock()
@@ -13,18 +13,22 @@ export class RenderLoop extends EventTarget {
     this.#scene = scene
     this.#camera = camera
     this.#renderer = new WebGLRenderer({
-      antialias: true
+      antialias: true,
     })
     this.render()
+
+    this.#clock.autoStart = true
 
     resizer.addEventListener(CanvasResizeEvent.type, this.#handleResize)
   }
 
   start() {
+    this.#clock.start()
     this.#renderer.setAnimationLoop(this.render)
   }
 
   stop() {
+    this.#clock.stop()
     this.#renderer.setAnimationLoop(null)
   }
 
@@ -41,10 +45,10 @@ export class RenderLoop extends EventTarget {
   #handleResize = (resizeEvent: Event) => {
     if (!(resizeEvent instanceof CanvasResizeEvent)) return
 
-    this.#renderer.setSize(resizeEvent.width, resizeEvent.height);
+    this.#renderer.setSize(resizeEvent.width, resizeEvent.height)
 
-    this.#renderer.setPixelRatio(window.devicePixelRatio);
-  };
+    this.#renderer.setPixelRatio(window.devicePixelRatio)
+  }
 }
 
 export class RenderEvent extends Event {

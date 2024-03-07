@@ -1,13 +1,14 @@
-import {Object3D, PerspectiveCamera, Scene} from "three";
+import { Object3D, PerspectiveCamera, Scene } from 'three'
 
 // System
-import {Canvas} from "./Canvas.ts";
-import {RenderLoop, RenderEvent} from "./RenderLoop.ts";
+import { Canvas } from './Canvas.ts'
+import { RenderLoop, RenderEvent } from './RenderLoop.ts'
 
 // Components
-import {createCamera} from "../components/camera.ts";
-import {createLight} from "../components/light.ts";
-import {createScene} from "../components/scene.ts";
+import { createCamera } from '../components/camera.ts'
+import { createLight } from '../components/light.ts'
+import { createScene } from '../components/scene.ts'
+import { createControls } from './controls.ts'
 
 export class World extends EventTarget {
   #camera: PerspectiveCamera
@@ -15,27 +16,28 @@ export class World extends EventTarget {
   #renderLoop: RenderLoop
   #container: HTMLDivElement
 
-  constructor(
-    container: HTMLDivElement
-  ) {
+  constructor(container: HTMLDivElement) {
     super()
     const canvas = new Canvas(container)
 
-    this.#container = container;
+    this.#container = container
 
-    this.#camera = createCamera(canvas);
+    this.#camera = createCamera(canvas)
 
-    this.#scene = createScene();
+    this.#scene = createScene()
     this.#scene.add(createLight())
 
     this.#renderLoop = new RenderLoop(this.#scene, this.#camera, canvas)
 
-    this.#container.append(this.#renderLoop.domElement);
+    this.#container.append(this.#renderLoop.domElement)
 
     this.#renderLoop.addEventListener(RenderEvent.type, this.tick)
 
+    const controls = createControls(this.#camera, this.#renderLoop.domElement)
+
     canvas.resize()
   }
+
   get speed() {
     return this.#renderLoop.speed
   }
