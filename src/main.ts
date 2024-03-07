@@ -11,17 +11,17 @@ if (!container) {
 const world = new World(container)
 
 
-const cube = createCube()
-cube.position.set(-1.5, 0, 0)
+const firstCube = createCube()
+firstCube.position.set(-1.5, 0, 0)
 
-const otherCube = cube.clone()
-otherCube.position.set(1.5, 0, 0)
+const secondCube = firstCube.clone()
+secondCube.position.set(1.5, 0, 0)
 
-world.add(cube, otherCube)
+world.add(firstCube, secondCube)
 
 world.onTick(() => {
-  cube.rotation.x += 0.01
-  cube.rotation.y += 0.01
+  firstCube.rotation.x += 0.01
+  firstCube.rotation.y += 0.01
 })
 
 
