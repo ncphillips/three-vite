@@ -15,7 +15,7 @@ const cube = createCube()
 
 world.add(cube)
 
-setInterval(() => {
+world.onTick(() => {
   cube.rotation.x += 0.01
   cube.rotation.y += 0.01
-}, 1000 / 60)
+})
