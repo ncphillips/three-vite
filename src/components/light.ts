@@ -1,9 +1,10 @@
-import {DirectionalLight} from "three";
+import { DirectionalLight, HemisphereLight, Light } from 'three'
 
-export function createLight() {
-  const light = new DirectionalLight('white', 8)
+export function createLights(): Light[] {
+  const hemisphereLight = new HemisphereLight('white', 'gray', 2)
 
-  light.position.set(10,10,10)
+  const mainLight = new DirectionalLight('white', 5)
+  mainLight.position.set(10, 10, 10)
 
-  return light
+  return [mainLight, hemisphereLight]
 }

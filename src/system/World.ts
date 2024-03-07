@@ -6,15 +6,17 @@ import { RenderLoop, RenderEvent } from './RenderLoop.ts'
 
 // Components
 import { createCamera } from '../components/camera.ts'
-import { createLight } from '../components/light.ts'
+import { createLights } from '../components/light.ts'
 import { createScene } from '../components/scene.ts'
 import { createControls } from './controls.ts'
+import { OrbitControls } from 'three/examples/jsm/Addons.js'
 
 export class World extends EventTarget {
   #camera: PerspectiveCamera
   #scene: Scene
   #renderLoop: RenderLoop
   #container: HTMLDivElement
+  #controls: OrbitControls
 
   constructor(container: HTMLDivElement) {
     super()
@@ -25,7 +27,7 @@ export class World extends EventTarget {
     this.#camera = createCamera(canvas)
 
     this.#scene = createScene()
-    this.#scene.add(createLight())
+    this.#scene.add(...createLights())
 
     this.#renderLoop = new RenderLoop(this.#scene, this.#camera, canvas)
 
@@ -33,7 +35,7 @@ export class World extends EventTarget {
 
     this.#renderLoop.addEventListener(RenderEvent.type, this.tick)
 
-    const controls = createControls(this.#camera, this.#renderLoop.domElement)
+    this.#controls = createControls(this.#camera, this.#renderLoop.domElement)
 
     canvas.resize()
   }
