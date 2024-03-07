@@ -37,7 +37,7 @@ export class Renderer extends EventTarget {
 }
 
 export class RenderEvent extends Event {
-  static readonly type = '3:render'
+  static readonly type = 'Renderer:render'
 
   constructor() {
     super(RenderEvent.type)

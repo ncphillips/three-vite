@@ -1,5 +1,5 @@
 import './style.css'
-import {World} from "./World.ts";
+import {World} from "./system/World.ts";
 import {createCube} from "./components/cube.ts";
 
 const container = document.querySelector<HTMLDivElement>('#scene-container');

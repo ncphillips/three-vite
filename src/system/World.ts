@@ -1,9 +1,13 @@
-import {createCamera} from "./components/camera.ts";
-import {createScene} from "./components/scene.ts";
 import {Object3D, PerspectiveCamera, Scene} from "three";
-import {Canvas} from "./system/Canvas.ts";
-import {createLight} from "./components/light.ts";
-import {Renderer, RenderEvent} from "./system/Renderer.ts";
+
+// System
+import {Canvas} from "./Canvas.ts";
+import {Renderer, RenderEvent} from "./Renderer.ts";
+
+// Components
+import {createCamera} from "../components/camera.ts";
+import {createLight} from "../components/light.ts";
+import {createScene} from "../components/scene.ts";
 
 export class World extends EventTarget {
   #camera: PerspectiveCamera
