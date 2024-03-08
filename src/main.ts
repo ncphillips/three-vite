@@ -1,7 +1,7 @@
 import './style.css'
 import { World } from './system/World.ts'
 import { createCube } from './components/cube.ts'
-import { MathUtils } from 'three'
+import { Color, MathUtils } from 'three'
 import { createSpiral } from './components/spiral.ts'
 
 /**
@@ -36,6 +36,28 @@ world.onTick(function firstCubeRotests(event) {
   const radsPerSecond = MathUtils.degToRad(30)
   firstCube.rotation.x += event.delta * radsPerSecond
   firstCube.rotation.y += event.delta * radsPerSecond
+})
+
+let moveDirection: 'left' | 'right' = 'right'
+world.onTick(function secondCubeMoves(e) {
+  if (secondCube.position.x > 10) moveDirection = 'left'
+  if (secondCube.position.x < 1) moveDirection = 'right'
+
+  const moveDistance = e.delta * 1
+  if (moveDirection === 'left') {
+    secondCube.position.x -= moveDistance
+  } else {
+    secondCube.position.x += moveDistance
+  }
+})
+world.onTick(function secondCubeChangesColor() {
+  const distance = secondCube.position.distanceTo(firstCube.position)
+  console.log('Distance', distance)
+  if (distance >= 5.5) {
+    secondCube.material.color = new Color('pink')
+  } else {
+    secondCube.material.color = new Color('blue')
+  }
 })
 
 world.onTick(function spiralSpins(e) {
