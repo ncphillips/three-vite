@@ -102,3 +102,10 @@ if (toggleDebugButton) {
     }
   })
 }
+
+const focusSecondCubeButton = document.querySelector('#focus-second-cube')
+if (focusSecondCubeButton) {
+  focusSecondCubeButton.addEventListener('click', () => {
+    world.camera.lookAt(secondCube.position)
+  })
+}

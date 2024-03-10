@@ -43,6 +43,10 @@ export class World extends EventTarget {
     canvas.resize()
   }
 
+  get camera() {
+    return this.#camera
+  }
+
   get debug() {
     return this.#debug
   }
