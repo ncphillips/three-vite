@@ -18,7 +18,8 @@ export function createSpiral() {
   group.position.set(0, 3, 0)
   group.scale.multiplyScalar(2)
   group.rotation.y = MathUtils.degToRad(45)
-  for (let i = 0; i < 1; i += 0.001) {
+
+  for (let i = 0; i < 1; i += 0.1) {
     const cloneSphere = sphere.clone()
     cloneSphere.position.x += Math.cos(2 * Math.PI * i)
     cloneSphere.position.y += Math.sin(2 * Math.PI * i)

@@ -1,4 +1,4 @@
-import { Object3D, PerspectiveCamera, Scene } from 'three'
+import { AxesHelper, Object3D, PerspectiveCamera, Scene } from 'three'
 
 // System
 import { Canvas } from './Canvas.ts'
@@ -17,6 +17,9 @@ export class World extends EventTarget {
   #renderLoop: RenderLoop
   #container: HTMLDivElement
   #controls: OrbitControls
+
+  #debug: boolean = false
+  #axesHelper: Object3D | null = null
 
   constructor(container: HTMLDivElement) {
     super()
@@ -38,6 +41,21 @@ export class World extends EventTarget {
     this.#controls = createControls(this.#camera, this.#renderLoop.domElement)
 
     canvas.resize()
+  }
+
+  get debug() {
+    return this.#debug
+  }
+
+  set debug(value) {
+    this.#debug = value
+    if (value) {
+      this.#axesHelper ||= new AxesHelper(2)
+
+      this.#scene.add(this.#axesHelper)
+    } else {
+      this.#scene.remove(this.#axesHelper!)
+    }
   }
 
   get speed() {

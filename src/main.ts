@@ -73,18 +73,32 @@ world.start()
  * Controls
  */
 const speedInput = document.querySelector<HTMLInputElement>('#speed')
-const playButton = document.querySelector('#play')
-const pauseButton = document.querySelector('#pause')
-
 speedInput?.addEventListener('input', (event) => {
   const target = event.target as HTMLInputElement
   world.speed = parseFloat(target.value)
 })
 
+const playButton = document.querySelector('#play')
 playButton?.addEventListener('click', () => {
   world.start()
 })
 
+const pauseButton = document.querySelector('#pause')
 pauseButton?.addEventListener('click', () => {
   world.stop()
 })
+
+const toggleDebugButton = document.querySelector('#toggle-debug')
+if (toggleDebugButton) {
+  toggleDebugButton.addEventListener('click', () => {
+    if (toggleDebugButton.getAttribute('data-debug') === 'on') {
+      world.debug = false
+      toggleDebugButton.setAttribute('data-debug', 'off')
+      toggleDebugButton.textContent = 'Enable Debug'
+    } else {
+      world.debug = true
+      toggleDebugButton.setAttribute('data-debug', 'on')
+      toggleDebugButton.textContent = 'Disable Debug'
+    }
+  })
+}
